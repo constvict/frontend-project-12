@@ -67,7 +67,9 @@ const Login = () => {
           Submit
         </Button>
         <div className="login-register">
-          Don't have an account? <Link to="/register">Register</Link>
+          Don&apos;t have an account?
+          {' '}
+          <Link to="/register">Register</Link>
         </div>
       </Form>
     </div>

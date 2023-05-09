@@ -3,8 +3,7 @@ import Login from './Login';
 import NotFound from './NotFound';
 import Register from './Register';
 
-const App = () => {
-  return (
+const App = () => (
   <BrowserRouter>
     <Routes>
       <Route path="/" element={<Login />} />
@@ -13,7 +12,6 @@ const App = () => {
       <Route path="*" element={<NotFound />} />
     </Routes>
   </BrowserRouter>
-  );
-};
+);
 
 export default App;
