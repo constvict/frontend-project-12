@@ -1,9 +1,22 @@
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
 import { Form, Button } from 'react-bootstrap';
+import React, { useEffect, useRef, useState } from 'react';
+import axios from 'axios';
+import useAuth from '../hooks/index.js';
+import routes from '../routes.js';
 
 const Login = () => {
+  const auth = useAuth();
+  const [authFailed, setAuthFailed] = useState(false);
+  const inputRef = useRef();
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    inputRef.current.focus();
+  }, []);
+
   const formik = useFormik({
     initialValues: {
       username: '',
@@ -12,20 +25,32 @@ const Login = () => {
     validationSchema: Yup.object().shape({
       username: Yup.string()
         .required('Username is required')
-        .min(3, 'Username must be at least 3 characters')
-        .max(30, 'Username must be at most 40 characters'),
+        .min(5, 'Username must be at least 5 characters')
+        .max(20, 'Username must be at most 20 characters'),
       password: Yup.string()
         .required('Password is required')
-        .min(3, 'Password must be at least 6 characters')
+        .min(5, 'Password must be at least 5 characters')
         .max(50, 'Password must be at most 50 characters'),
     }),
 
-    onSubmit: () => console.log('submit'),
+    onSubmit: async (values) => {
+      try {
+        const response = await axios.post(routes.loginPath(), values);
+        auth.logIn(response.data);
+        localStorage.setItem('user', JSON.stringify(response.data));
+        console.log(response.data);
+        navigate('/');
+      } catch (error) {
+        setAuthFailed(true);
+        inputRef.current.select();
+        console.log(error);
+      }
+    },
   });
 
   return (
     <div className="d-flex flex-column justify-content-center align-items-center vh-100 mx-10">
-      <Form onSubmit={formik.handleSubmit} className="col-12 col-md-6 mt-3 mt-mb-0">
+      <Form onSubmit={formik.handleSubmit} className="col-12 col-md-2 mt-3 mt-mb-0">
         <h1 className="text-center mb-4">Login Page</h1>
         <Form.Group className="form-floating mb-3">
           <Form.Control
@@ -37,7 +62,8 @@ const Login = () => {
             required=""
             placeholder="Login"
             id="username"
-            isInvalid={formik.touched.username && !!formik.errors.username}
+            isInvalid={(formik.touched.username && !!formik.errors.username) || authFailed}
+            ref={inputRef}
           />
           <Form.Label htmlFor="username">Login</Form.Label>
           <Form.Control.Feedback type="invalid">{formik.errors.username}</Form.Control.Feedback>
@@ -53,7 +79,7 @@ const Login = () => {
             placeholder="Password"
             type="password"
             id="password"
-            isInvalid={formik.touched.password && !!formik.errors.password}
+            isInvalid={(formik.touched.password && !!formik.errors.password) || authFailed}
           />
           <Form.Label htmlFor="password">Password</Form.Label>
           <Form.Control.Feedback type="invalid">{formik.errors.password}</Form.Control.Feedback>
