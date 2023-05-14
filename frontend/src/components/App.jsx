@@ -1,52 +1,14 @@
 import {
   BrowserRouter, Routes, Route, Navigate,
 } from 'react-router-dom';
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import Login from './Login';
 import NotFound from './NotFound';
 import Register from './Register';
 import Chat from './Chat';
-import AuthContext from '../contexts/index.js';
+import Header from './Header';
 import useAuth from '../hooks/index.js';
-
-const AuthProvider = ({ children }) => {
-  const [user, setUser] = useState(null);
-
-  useEffect(() => {
-    const currentUser = JSON.parse(localStorage.getItem('user'));
-    if (currentUser) {
-      setUser({ username: currentUser.username });
-    }
-  }, []);
-
-  const logIn = (userData) => {
-    localStorage.setItem('user', JSON.stringify(userData));
-    setUser({ username: userData.username });
-  };
-
-  const logOut = () => {
-    localStorage.removeItem('user');
-    setUser(null);
-  };
-
-  const getAuthHeader = () => {
-    const userData = JSON.parse(localStorage.getItem('user'));
-
-    if (userData && userData.token) {
-      return { Authorization: `Bearer ${userData.token}` };
-    }
-    return {};
-  };
-
-  return (
-    <AuthContext.Provider value={{
-      user, logIn, logOut, getAuthHeader,
-    }}
-    >
-      {children}
-    </AuthContext.Provider>
-  );
-};
+import AuthProvider from '../contexts/AuthProvider';
 
 const ChatRoute = () => {
   const auth = useAuth();
@@ -58,12 +20,15 @@ const ChatRoute = () => {
 const App = () => (
   <AuthProvider>
     <BrowserRouter>
-      <Routes>
-        <Route path="/" element={<ChatRoute />} />
-        <Route path="/login" element={<Login />} />
-        <Route path="/register" element={<Register />} />
-        <Route path="*" element={<NotFound />} />
-      </Routes>
+      <div className="d-flex flex-column vh-100">
+        <Header />
+        <Routes>
+          <Route path="/" element={<ChatRoute />} />
+          <Route path="/login" element={<Login />} />
+          <Route path="/register" element={<Register />} />
+          <Route path="*" element={<NotFound />} />
+        </Routes>
+      </div>
     </BrowserRouter>
   </AuthProvider>
 );
