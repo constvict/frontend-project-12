@@ -2,32 +2,70 @@ import React, { useEffect, useRef, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { selectors as channelsSelectors } from '../slices/channelsSlice.js';
 import { selectors as messagesSelectors } from '../slices/messagesSlice.js';
+import useAuth from '../hooks/index.js';
+import { addNewMessage } from '../socket.js';
 
 const Messages = () => {
-  const [message, setMessage] = useState('');
+  const [newMessage, setNewMessage] = useState('');
   const inputRef = useRef();
-
-  useEffect(() => {
-    inputRef.current.focus();
-  });
-
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    console.log(message);
-    setMessage('');
-  };
-
-  const handleChange = (e) => {
-    setMessage(e.target.value);
-  };
+  const lastMessageRef = useRef();
+  const auth = useAuth();
 
   const currentChannelId = useSelector((state) => state.channels.currentChannelId);
-
   const currentChannel = useSelector(
     (state) => channelsSelectors.selectById(state, currentChannelId),
   );
-
   const messages = useSelector(messagesSelectors.selectAll);
+  const currentMessages = messages.filter(
+    (currentMessage) => currentMessage.channelId === currentChannelId,
+  );
+
+  useEffect(() => {
+    inputRef.current.focus();
+  }, []);
+
+  useEffect(() => {
+    lastMessageRef.current.scrollIntoView({
+      behavior: 'smooth',
+    });
+  }, [currentMessages]);
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    if (newMessage) {
+      const body = newMessage;
+      const channelId = currentChannelId;
+      const { username } = auth.user;
+      const data = {
+        body,
+        channelId,
+        username,
+      };
+      console.log(username, data.body);
+      addNewMessage(data, (response) => {
+        console.log(response);
+      });
+
+      setNewMessage('');
+    }
+  };
+
+  const handleChange = (e) => {
+    setNewMessage(e.target.value);
+  };
+
+  const messagesRender = () => {
+    if (currentMessages.length === 0) {
+      return null;
+    }
+    return currentMessages.map((message) => (
+      <div key={message.id} className="text-break mb-2">
+        <b>{message.username}</b>
+        :
+        {` ${message.body}`}
+      </div>
+    ));
+  };
 
   return (
     <div className="col p-0 h-100">
@@ -40,20 +78,14 @@ const Messages = () => {
             </b>
           </p>
           <span className="text-muted">
-            {messages.length}
+            {currentMessages.length}
             {' '}
             messages
           </span>
         </div>
         <div id="messages-box" className="chat-messages overflow-auto px-5 ">
-          <div className="text-break mb-2">
-            <b>admin: </b>
-            <span>Hi!</span>
-          </div>
-          <div className="text-break mb-2">
-            <b>lolguy: </b>
-            <span>One more test message</span>
-          </div>
+          {messagesRender()}
+          <span ref={lastMessageRef} />
         </div>
         <div className="mt-auto px-5 py-3">
           <form onSubmit={handleSubmit} noValidate="" className="py-1 border rounded-2">
@@ -65,7 +97,7 @@ const Messages = () => {
                 aria-label="New message"
                 placeholder="Type Message..."
                 className="border-0 p-0 ps-2 form-control"
-                value={message}
+                value={newMessage}
                 ref={inputRef}
               />
               <button type="submit" className="btn btn-group-vertical" disabled="">

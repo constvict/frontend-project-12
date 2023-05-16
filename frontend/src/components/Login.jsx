@@ -55,7 +55,6 @@ const Login = () => {
         <Form.Group className="form-floating mb-3">
           <Form.Control
             onChange={formik.handleChange}
-            onBlur={formik.handleBlur}
             value={formik.values.username}
             name="username"
             autoComplete="username"
@@ -82,7 +81,11 @@ const Login = () => {
             isInvalid={(formik.touched.password && !!formik.errors.password) || authFailed}
           />
           <Form.Label htmlFor="password">Password</Form.Label>
-          <Form.Control.Feedback type="invalid">{formik.errors.password}</Form.Control.Feedback>
+          {authFailed && (
+          <Form.Control.Feedback type="invalid" tooltip placement="right">
+            Неверные имя пользователя или пароль
+          </Form.Control.Feedback>
+          )}
         </Form.Group>
         <Button
           disabled={!formik.isValid}
