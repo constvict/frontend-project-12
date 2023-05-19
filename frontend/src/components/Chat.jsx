@@ -1,16 +1,18 @@
 import axios from 'axios';
-import { useDispatch } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import React, { useEffect } from 'react';
-import Channels from './Channels.jsx';
-import Messages from './Messages.jsx';
+import Channels from './channels/ChannelsBox.jsx';
+import Messages from './messages/MessagesBox.jsx';
+import getModal from './modals/index.js';
 import routes from '../routes.js';
-import useAuth from '../hooks/index.js';
+import { useAuth } from '../hooks/index.js';
 import { actions as channelsActions } from '../slices/channelsSlice.js';
 import { actions as messagesActions } from '../slices/messagesSlice.js';
 
 const Chat = () => {
   const auth = useAuth();
   const dispatch = useDispatch();
+  const modalType = useSelector((state) => state.modals.modalType);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -23,7 +25,15 @@ const Chat = () => {
       dispatch(messagesActions.addMessages(messages));
     };
     fetchData();
-  });
+  }, [auth, dispatch]);
+
+  const renderModal = (type) => {
+    if (!type) {
+      return null;
+    }
+    const Modal = getModal(type);
+    return <Modal />;
+  };
 
   return (
     <div className="container h-100 my-4 overflow-hidden rounded shadow">
@@ -31,6 +41,7 @@ const Chat = () => {
         <Channels />
         <Messages />
       </div>
+      {renderModal(modalType)}
     </div>
   );
 };

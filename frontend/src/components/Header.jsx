@@ -5,7 +5,7 @@ import {
   Navbar,
 } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
-import useAuth from '../hooks/index.js';
+import { useAuth } from '../hooks/index.js';
 
 const Header = () => {
   const auth = useAuth();

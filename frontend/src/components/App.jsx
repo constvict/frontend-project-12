@@ -7,7 +7,7 @@ import NotFound from './NotFound';
 import Register from './Register';
 import Chat from './Chat';
 import Header from './Header';
-import useAuth from '../hooks/index.js';
+import { useAuth } from '../hooks/index.js';
 import AuthProvider from '../contexts/AuthProvider';
 
 const ChatRoute = () => {
@@ -20,7 +20,7 @@ const ChatRoute = () => {
 const App = () => (
   <AuthProvider>
     <BrowserRouter>
-      <div className="d-flex flex-column vh-100">
+      <div className="d-flex flex-column vh-100 bg-light">
         <Header />
         <Routes>
           <Route path="/" element={<ChatRoute />} />

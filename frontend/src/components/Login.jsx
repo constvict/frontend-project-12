@@ -4,7 +4,7 @@ import * as Yup from 'yup';
 import { Form, Button } from 'react-bootstrap';
 import React, { useEffect, useRef, useState } from 'react';
 import axios from 'axios';
-import useAuth from '../hooks/index.js';
+import { useAuth } from '../hooks/index.js';
 import routes from '../routes.js';
 
 const Login = () => {
