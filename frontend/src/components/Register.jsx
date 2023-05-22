@@ -3,6 +3,7 @@ import React, { useEffect, useRef, useState } from 'react';
 import { Button, Form } from 'react-bootstrap';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
+import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../hooks/index.js';
 import routes from '../routes.js';
@@ -12,6 +13,7 @@ const RegistrationPage = () => {
   const auth = useAuth();
   const inputRef = useRef();
   const navigate = useNavigate();
+  const { t } = useTranslation();
   const [registrationFailed, setRegistrationFailed] = useState(false);
 
   useEffect(() => {
@@ -22,17 +24,17 @@ const RegistrationPage = () => {
     username: Yup
       .string()
       .trim()
-      .required('required')
-      .min(3, 'min 3')
-      .max(20, 'max 20'),
+      .required(t('signup.required'))
+      .min(3, t('signup.usernameSymbolsRequired'))
+      .max(20, t('signup.usernameSymbolsRequired')),
     password: Yup
       .string()
       .trim()
-      .required('required')
-      .min(6, 'min 6'),
+      .required(t('signup.required'))
+      .min(6, t('signup.passwordSymbolsRequired')),
     confirmPassword: Yup
       .string()
-      .oneOf([Yup.ref('password')], 'Must match'),
+      .oneOf([Yup.ref('password')], t('signup.passwordsMustMatch')),
   });
 
   const formik = useFormik({
@@ -76,11 +78,11 @@ const RegistrationPage = () => {
                 <img
                   src={image}
                   className="rounded-circle"
-                  alt="registration header"
+                  alt={t('image')}
                 />
               </div>
               <Form onSubmit={formik.handleSubmit} className="w-50">
-                <h1 className="text-center mb-4">Sign up</h1>
+                <h1 className="text-center mb-4">{t('signup.header')}</h1>
                 <Form.Group className="form-floating mb-3">
                   <Form.Control
                     onChange={formik.handleChange}
@@ -94,10 +96,10 @@ const RegistrationPage = () => {
                       || registrationFailed
                     }
                     ref={inputRef}
-                    placeholder="sign up username"
+                    placeholder={t('signup.usernameLengthRequired')}
                     required
                   />
-                  <Form.Label htmlFor="username">Sign up username</Form.Label>
+                  <Form.Label htmlFor="username">{t('signup.username')}</Form.Label>
                   <Form.Control.Feedback type="invalid" tooltip placement="right">
                     {formik.errors.username}
                   </Form.Control.Feedback>
@@ -116,13 +118,13 @@ const RegistrationPage = () => {
                       || registrationFailed
                     }
                     autoComplete="new-password"
-                    placeholder="sign up password"
+                    placeholder={t('signup.passwordLengthRequired')}
                     required
                   />
                   <Form.Control.Feedback type="invalid" tooltip>
                     {formik.errors.password}
                   </Form.Control.Feedback>
-                  <Form.Label htmlFor="password">Sign up paswword</Form.Label>
+                  <Form.Label htmlFor="password">{t('signup.password')}</Form.Label>
                 </Form.Group>
                 <Form.Group className="form-floating mb-4">
                   <Form.Control
@@ -137,15 +139,15 @@ const RegistrationPage = () => {
                       || registrationFailed
                     }
                     autoComplete="new-password"
-                    placeholder="paswword must match"
+                    placeholder={t('signup.passwordsMustMatch')}
                     required
                   />
                   <Form.Control.Feedback type="invalid" tooltip>
-                    {registrationFailed ? 'already exists' : formik.errors.confirmPassword}
+                    {registrationFailed ? t('signup.alreadyExists') : formik.errors.confirmPassword}
                   </Form.Control.Feedback>
-                  <Form.Label htmlFor="confirmPassword">Confirm password</Form.Label>
+                  <Form.Label htmlFor="confirmPassword">{t('signup.confirm')}</Form.Label>
                 </Form.Group>
-                <Button type="submit" variant="outline-primary" className="w-100">Submit</Button>
+                <Button type="submit" variant="outline-primary" className="w-100">{t('signup.submit')}</Button>
               </Form>
             </div>
           </div>

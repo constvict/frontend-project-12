@@ -2,6 +2,7 @@ import React, { useEffect, useRef } from 'react';
 import { Button, Form, InputGroup } from 'react-bootstrap';
 import { ArrowRightSquare } from 'react-bootstrap-icons';
 import { useSelector } from 'react-redux';
+import { useTranslation } from 'react-i18next';
 import * as yup from 'yup';
 import { useFormik } from 'formik';
 import { useAuth, useSocket } from '../../hooks/index.js';
@@ -14,6 +15,7 @@ const Messages = () => {
   const lastMessageRef = useRef();
   const auth = useAuth();
   const chat = useSocket();
+  const { t } = useTranslation();
 
   const currentChannelId = useSelector((state) => state.channels.currentChannelId);
   const currentChannel = useSelector(
@@ -74,9 +76,7 @@ const Messages = () => {
             <b>{`# ${currentChannel?.name}`}</b>
           </p>
           <span className="text-muted">
-            {currentMessages.length}
-            {' '}
-            messages
+            {t('messages.counter.key', { count: currentMessages.length })}
           </span>
         </div>
         <div className="overflow-auto px-5 d-flex flex-column">
@@ -89,8 +89,8 @@ const Messages = () => {
               <Form.Control
                 onChange={formik.handleChange}
                 name="body"
-                aria-label="new message"
-                placeholder="Type a message"
+                aria-label={t('messages.new')}
+                placeholder={t('messages.input')}
                 className="border-0 p-0 ps-2 form-control"
                 value={formik.values.body}
                 ref={inputRef}
@@ -109,7 +109,7 @@ const Messages = () => {
                   height="20"
                   fill="currentColor"
                 />
-                <span className="visually-hidden">Send</span>
+                <span className="visually-hidden">{t('messages.send')}</span>
               </Button>
             </InputGroup>
           </Form>

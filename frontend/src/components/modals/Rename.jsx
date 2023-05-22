@@ -2,6 +2,7 @@ import { useFormik } from 'formik';
 import React, { useEffect, useRef } from 'react';
 import { Button, Form, Modal } from 'react-bootstrap';
 import { useDispatch, useSelector } from 'react-redux';
+import { useTranslation } from 'react-i18next';
 import * as yup from 'yup';
 import { useSocket } from '../../hooks/index.js';
 import { selectors as channelsSelectors } from '../../slices/channelsSlice.js';
@@ -11,6 +12,7 @@ const Rename = () => {
   const dispatch = useDispatch();
   const inputEl = useRef();
   const chat = useSocket();
+  const { t } = useTranslation();
 
   const channels = useSelector(channelsSelectors.selectAll);
   const itemId = useSelector((state) => state.modals.itemId);
@@ -20,13 +22,13 @@ const Rename = () => {
     name: yup
       .string()
       .trim()
-      .min(3, 'Must be at least 3 characters')
-      .max(20, 'Must be less than 20 characters')
+      .min(3, t('modalRename.symbolsRequired'))
+      .max(20, t('modalRename.symbolsRequired'))
       .notOneOf(
         channels.map((channel) => channel.name),
-        'This channel name already exists',
+        t('modalRename.unique'),
       )
-      .required('Required'),
+      .required(t('modalRename.required')),
   });
 
   const formik = useFormik({
@@ -47,7 +49,7 @@ const Rename = () => {
   return (
     <Modal show centered>
       <Modal.Header closeButton onHide={() => dispatch(modalsActions.hideModal())}>
-        <Modal.Title>Rename channel</Modal.Title>
+        <Modal.Title>{t('modalRename.renameChannel')}</Modal.Title>
       </Modal.Header>
 
       <Modal.Body>
@@ -63,15 +65,15 @@ const Rename = () => {
             autoComplete="off"
           />
           <Form.Label htmlFor="name" className="visually-hidden">
-            Rename name
+            {t('modalRename.name')}
           </Form.Label>
           <Form.Control.Feedback type="invalid">{formik.errors.name}</Form.Control.Feedback>
           <div className="d-flex justify-content-end">
             <Button className="me-2" variant="secondary" onClick={() => dispatch(modalsActions.hideModal())}>
-              Cancel
+              {t('modalRename.cancel')}
             </Button>
             <Button type="submit" variant="primary">
-              Send
+              {t('modalRename.send')}
             </Button>
           </div>
         </Form>

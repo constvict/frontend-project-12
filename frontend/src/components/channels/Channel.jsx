@@ -1,5 +1,6 @@
 import React from 'react';
 import cn from 'classnames';
+import { useTranslation } from 'react-i18next';
 import { ButtonGroup, Dropdown, Nav } from 'react-bootstrap';
 import { useDispatch, useSelector } from 'react-redux';
 import { actions as channelsActions } from '../../slices/channelsSlice.js';
@@ -7,7 +8,7 @@ import { actions as modalsActions } from '../../slices/modalsSlice.js';
 
 const Channel = (props) => {
   const { channel } = props;
-  console.log(channel);
+  const { t } = useTranslation();
   const currentChannelId = useSelector((state) => state.channels.currentChannelId);
 
   const dispatch = useDispatch();
@@ -36,7 +37,7 @@ const Channel = (props) => {
             variant={channel.id === currentChannelId ? 'secondary' : 'light'}
             className="flex-grow-0 text-end rounded-0"
           >
-            <span className="visually-hidden">controls</span>
+            <span className="visually-hidden">{t('channels.controls')}</span>
           </Dropdown.Toggle>
 
           <Dropdown.Menu>
@@ -45,14 +46,14 @@ const Channel = (props) => {
                 modalsActions.showModal({ modalType: 'removeChannel', itemId: channel.id }),
               )}
             >
-              Remove
+              {t('channels.remove')}
             </Dropdown.Item>
             <Dropdown.Item
               onClick={() => dispatch(
                 modalsActions.showModal({ modalType: 'renameChannel', itemId: channel.id }),
               )}
             >
-              Rename
+              {t('channels.rename')}
             </Dropdown.Item>
           </Dropdown.Menu>
         </Dropdown>

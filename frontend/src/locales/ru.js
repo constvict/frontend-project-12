@@ -1,3 +1,75 @@
-const ru = {};
+const ru = {
+  translation: {
+    logout: 'Выйти',
+    image: 'Изображение',
+    login: {
+      header: 'Войти',
+      username: 'Ваш ник',
+      password: 'Пароль',
+      required: 'Обязательное поле',
+      authFailed: 'Неверные имя пользователя или пароль',
+      submit: 'Войти',
+      unregistred: 'Нет аккаунта?',
+      signup: 'Регистрация',
+    },
+    signup: {
+      required: 'Обязательное поле',
+      usernameSymbolsRequired: 'От 3 до 20 символов',
+      passwordSymbolsRequired: 'Не менее 6 символов',
+      passwordsMustMatch: 'Пароли должны совпадать',
+      header: 'Регистрация',
+      username: 'Имя пользователя',
+      password: 'Пароль',
+      confirm: 'Подтвердите пароль',
+      submit: 'Зарегистрироваться',
+      alreadyExists: 'Такой пользователь уже существует',
+    },
+    notFound: {
+      header: 'Страница не найдена',
+      message: 'Но вы можете перейти ',
+      link: 'на главную страницу',
+    },
+    messages: {
+      counter: {
+        key_one: '{{count}} сообщение',
+        key_few: '{{count}} сообщения',
+        key_many: '{{count}} сообщений',
+      },
+      new: 'Новое сообщение',
+      input: 'Введите сообщение...',
+      send: 'Отправить',
+    },
+    channels: {
+      header: 'Каналы',
+      control: 'Управление каналом',
+      remove: 'Удалить',
+      rename: 'Переименовать',
+    },
+    modalAdd: {
+      symbolsRequired: 'От 3 до 20 символов',
+      unique: 'Должно быть уникальным',
+      required: 'Обязательное поле',
+      addChannel: 'Добавить канал',
+      send: 'Отправить',
+      cancel: 'Отменить',
+      name: 'Название канала',
+    },
+    modalRemove: {
+      confirm: 'Уверены?',
+      cancel: 'Отменить',
+      remove: 'Удалить',
+      removeChannel: 'Удалить канал',
+    },
+    modalRename: {
+      symbolsRequired: 'От 3 до 20 символов',
+      unique: 'Должно быть уникальным',
+      required: 'Обязательное поле',
+      renameChannel: 'Переименовать канал',
+      name: 'Название канала',
+      cancel: 'Отменить',
+      send: 'Отправить',
+    },
+  },
+};
 
 export default ru;

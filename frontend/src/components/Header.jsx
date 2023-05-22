@@ -5,10 +5,12 @@ import {
   Navbar,
 } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 import { useAuth } from '../hooks/index.js';
 
 const Header = () => {
   const auth = useAuth();
+  const { t } = useTranslation();
 
   return (
     <Navbar className="shadow-sm navbar-expand-lg navbar-light bg-white">
@@ -23,7 +25,7 @@ const Header = () => {
               auth.logOut();
             }}
           >
-            Logout
+            {t('logout')}
           </Button>
         )}
       </Container>

@@ -3,7 +3,7 @@ import React, { useEffect, useRef } from 'react';
 import { Button, Form, Modal } from 'react-bootstrap';
 import { useDispatch, useSelector } from 'react-redux';
 import * as Yup from 'yup';
-
+import { useTranslation } from 'react-i18next';
 import { useSocket } from '../../hooks/index.js';
 import {
   actions as channelsActions,
@@ -15,6 +15,7 @@ const Add = () => {
   const dispatch = useDispatch();
   const inputEl = useRef();
   const chat = useSocket();
+  const { t } = useTranslation();
 
   useEffect(() => {
     inputEl.current.focus();
@@ -25,13 +26,13 @@ const Add = () => {
   const validationSchema = Yup.object().shape({
     name: Yup.string()
       .trim()
-      .min(3, 'Must be at least 3 characters')
-      .max(20, 'Must be less than 20 characters')
+      .min(3, t('modalAdd.symbolsRequired'))
+      .max(20, t('modalAdd.symbolsRequired'))
       .notOneOf(
         channels.map((channel) => channel.name),
-        'This channel name already exists',
+        t('modalAdd.unique'),
       )
-      .required('Required'),
+      .required(t('modalAdd.required')),
   });
 
   const formik = useFormik({
@@ -49,7 +50,7 @@ const Add = () => {
   return (
     <Modal show centered>
       <Modal.Header closeButton onHide={() => dispatch(modalsActions.hideModal())}>
-        <Modal.Title>Add</Modal.Title>
+        <Modal.Title>{t('modalAdd.addChannel')}</Modal.Title>
       </Modal.Header>
 
       <Modal.Body>
@@ -65,15 +66,15 @@ const Add = () => {
             autoComplete="off"
           />
           <Form.Label htmlFor="name" className="visually-hidden">
-            +
+            {t('modalAdd.name')}
           </Form.Label>
           <Form.Control.Feedback type="invalid">{formik.errors.name}</Form.Control.Feedback>
           <div className="d-flex justify-content-end">
             <Button className="me-2" variant="secondary" onClick={() => dispatch(modalsActions.hideModal())}>
-              Cancel
+              {t('modalAdd.cancel')}
             </Button>
             <Button type="submit" variant="primary">
-              Create
+              {t('modalAdd.send')}
             </Button>
           </div>
         </Form>

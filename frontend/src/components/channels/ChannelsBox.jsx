@@ -1,6 +1,7 @@
 import React from 'react';
 import { Button, Col, Nav } from 'react-bootstrap';
 import { PlusSquare } from 'react-bootstrap-icons';
+import { useTranslation } from 'react-i18next';
 import { useDispatch, useSelector } from 'react-redux';
 import { selectors as channelsSelectors } from '../../slices/channelsSlice.js';
 import { actions as modalsActions } from '../../slices/modalsSlice.js';
@@ -9,11 +10,12 @@ import Channel from './Channel.jsx';
 const Channels = () => {
   const channels = useSelector(channelsSelectors.selectAll);
   const dispatch = useDispatch();
+  const { t } = useTranslation();
 
   return (
     <Col className="col-4 col-md-2 border-end px-0 bg-light flex-column h-100 d-flex">
       <div className="d-flex mt-1 justify-content-between mb-2 ps-4 pe-2 p-4">
-        <b>Channels</b>
+        <b>{t('channels.header')}</b>
         <Button
           onClick={() => dispatch(modalsActions.showModal({ modalType: 'addChannel', itemId: null }))}
           variant="text-primary"
@@ -33,7 +35,7 @@ const Channels = () => {
         className="nav flex-column nav-pills nav-fill px-2 mb-3 overflow-auto h-100 d-block"
       >
         {channels.length > 0
-          && channels.map((channel) => <Channel key={channel.id} channel={channel} />)}
+        && channels.map((channel) => <Channel key={channel.id} channel={channel} />)}
       </Nav>
     </Col>
   );
