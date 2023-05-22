@@ -1,6 +1,7 @@
 import axios from 'axios';
 import { useSelector, useDispatch } from 'react-redux';
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
+import Spinner from 'react-bootstrap/Spinner';
 import Channels from './channels/ChannelsBox.jsx';
 import Messages from './messages/MessagesBox.jsx';
 import getModal from './modals/index.js';
@@ -13,16 +14,26 @@ const Chat = () => {
   const auth = useAuth();
   const dispatch = useDispatch();
   const modalType = useSelector((state) => state.modals.modalType);
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     const fetchData = async () => {
-      const response = await axios.get(routes.dataPath(), { headers: auth.getAuthHeader() });
+      try {
+        const response = await axios.get(routes.dataPath(), { headers: auth.getAuthHeader() });
 
-      const { channels, currentChannelId, messages } = response.data;
+        const { channels, currentChannelId, messages } = response.data;
 
-      dispatch(channelsActions.addChannels(channels));
-      dispatch(channelsActions.setCurrentChannelId(currentChannelId));
-      dispatch(messagesActions.addMessages(messages));
+        dispatch(channelsActions.addChannels(channels));
+        dispatch(channelsActions.setCurrentChannelId(currentChannelId));
+        dispatch(messagesActions.addMessages(messages));
+
+        setTimeout(() => {
+          setIsLoading(false);
+        }, 100);
+      } catch (error) {
+        console.error('Error fetching data:', error);
+        setIsLoading(false);
+      }
     };
     fetchData();
   }, [auth, dispatch]);
@@ -36,13 +47,21 @@ const Chat = () => {
   };
 
   return (
-    <div className="container h-100 my-4 overflow-hidden rounded shadow">
-      <div className="row h-100 bg-white flex-md-row">
-        <Channels />
-        <Messages />
-      </div>
+    <>
+      {isLoading ? (
+        <div className="h-100 d-flex justify-content-center align-items-center">
+          <Spinner animation="border" role="status" variant="primary" />
+        </div>
+      ) : (
+        <div className="container h-100 my-4 overflow-hidden rounded shadow">
+          <div className="row h-100 bg-white flex-md-row">
+            <Channels />
+            <Messages />
+          </div>
+        </div>
+      )}
       {renderModal(modalType)}
-    </div>
+    </>
   );
 };
 

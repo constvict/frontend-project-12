@@ -41,7 +41,7 @@ const Add = () => {
     validationSchema,
     onSubmit: (values) => {
       const callback = (id) => dispatch(channelsActions.setCurrentChannelId(id));
-      chat.addNewChannel({ name: values.name }, callback);
+      chat.addChannel({ name: values.name }, callback);
       dispatch(modalsActions.hideModal());
     },
   });

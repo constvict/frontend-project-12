@@ -3,10 +3,16 @@ import store from './slices/index.js';
 import { actions as messagesActions } from './slices/messagesSlice.js';
 import { actions as channelsActions } from './slices/channelsSlice.js';
 
-const initSocket = () => {
+const initSocket = (onDisconnect) => {
   const socket = io();
 
-  const addNewMessage = (message) => socket.emit('newMessage', message, (response) => {
+  socket.on('connect_error', () => {
+    if (typeof onDisconnect === 'function') {
+      onDisconnect();
+    }
+  });
+
+  const addMessage = (message) => socket.emit('newMessage', message, (response) => {
     if (response.status !== 'ok') {
       console.error(response.status);
     }
@@ -16,7 +22,7 @@ const initSocket = () => {
     store.dispatch(messagesActions.addMessage(payload));
   });
 
-  const addNewChannel = (channel, callback) => socket.emit('newChannel', channel, ({ data, status }) => {
+  const addChannel = (channel, callback) => socket.emit('newChannel', channel, ({ data, status }) => {
     if (status === 'ok') {
       callback(data.id);
     } else {
@@ -57,7 +63,7 @@ const initSocket = () => {
   });
 
   return {
-    addNewMessage, addNewChannel, removeChannel, renameChannel,
+    addMessage, addChannel, removeChannel, renameChannel,
   };
 };
 

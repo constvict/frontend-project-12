@@ -52,7 +52,7 @@ const Messages = () => {
         channelId,
         username,
       };
-      chat.addNewMessage(data);
+      chat.addMessage(data);
       resetForm();
     },
   });

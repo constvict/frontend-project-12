@@ -1,14 +1,15 @@
-import { Container, Row, Col } from 'react-bootstrap';
+import image from '../assets/404.svg';
 
 const PageNotFound = () => (
-  <Container>
-    <Row className="justify-content-center mt-5">
-      <Col md={8} className="text-center">
-        <h1 className="display-4">404</h1>
-        <p className="lead">Sorry, the page you requested could not be found.</p>
-      </Col>
-    </Row>
-  </Container>
+  <div className="text-center">
+    <img alt="Страница не найдена" className="img-fluid h-25" src={image} />
+    <h1 className="h4 text-muted">Page Not Found</h1>
+    <p className="text-muted">
+      Back to
+      {' '}
+      <a href="/">main page</a>
+    </p>
+  </div>
 );
 
 export default PageNotFound;

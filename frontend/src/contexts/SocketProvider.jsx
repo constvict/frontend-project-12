@@ -3,13 +3,13 @@ import { SocketContext } from './index.js';
 
 const SocketProvider = ({ socket, children }) => {
   const {
-    addNewMessage, addNewChannel, removeChannel, renameChannel,
+    addMessage, addChannel, removeChannel, renameChannel,
   } = socket;
 
   return (
     <SocketContext.Provider
       value={{
-        addNewMessage, addNewChannel, removeChannel, renameChannel,
+        addMessage, addChannel, removeChannel, renameChannel,
       }}
     >
       {children}

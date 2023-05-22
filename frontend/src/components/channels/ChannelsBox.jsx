@@ -11,11 +11,11 @@ const Channels = () => {
   const dispatch = useDispatch();
 
   return (
-    <Col className="d-flex flex-column h-100 col-4 col-md-2 border-end pt-3 px-0 bg-light">
-      <div className="d-flex justify-content-between align-items-center mb-3 ps-4 pe-2 ">
+    <Col className="col-4 col-md-2 border-end px-0 bg-light flex-column h-100 d-flex">
+      <div className="d-flex mt-1 justify-content-between mb-2 ps-4 pe-2 p-4">
         <b>Channels</b>
         <Button
-          onClick={() => dispatch(modalsActions.showModal({ modalType: 'addNewChannel', itemId: null }))}
+          onClick={() => dispatch(modalsActions.showModal({ modalType: 'addChannel', itemId: null }))}
           variant="text-primary"
           className="p-0 text-primary btn btn-group-vertical"
         >
