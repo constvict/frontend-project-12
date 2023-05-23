@@ -1,6 +1,7 @@
 import React from 'react';
 import { Provider } from 'react-redux';
 import i18next from 'i18next';
+import leoProfanity from 'leo-profanity';
 import { initReactI18next, I18nextProvider } from 'react-i18next';
 import SocketProvider from './contexts/SocketProvider.jsx';
 import App from './components/App.jsx';
@@ -18,6 +19,10 @@ const init = async () => {
       resources,
       fallbackLng: 'ru',
     });
+
+  leoProfanity.clearList();
+  leoProfanity.add(leoProfanity.getDictionary('en'));
+  leoProfanity.add(leoProfanity.getDictionary('ru'));
 
   return (
     <Provider store={store}>

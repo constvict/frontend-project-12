@@ -44,7 +44,7 @@ const Chat = () => {
       }
     };
     fetchData();
-  }, [auth, dispatch]);
+  }, [auth, dispatch, t]);
 
   const renderModal = (type) => {
     if (!type) {

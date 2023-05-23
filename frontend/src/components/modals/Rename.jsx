@@ -3,6 +3,7 @@ import React, { useEffect, useRef } from 'react';
 import { Button, Form, Modal } from 'react-bootstrap';
 import { useDispatch, useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
+import leoProfanity from 'leo-profanity';
 import { toast } from 'react-toastify';
 import * as yup from 'yup';
 import { useSocket } from '../../hooks/index.js';
@@ -38,7 +39,8 @@ const Rename = () => {
     },
     validationSchema,
     onSubmit: (values) => {
-      chat.renameChannel({ id: itemId, name: values.name });
+      const cleanedChannelName = leoProfanity.clean(values.name);
+      chat.renameChannel({ id: itemId, name: cleanedChannelName });
       dispatch(modalsActions.hideModal());
       toast.success(t('modalRename.success'));
     },

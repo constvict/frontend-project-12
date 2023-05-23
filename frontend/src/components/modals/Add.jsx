@@ -2,6 +2,7 @@ import { useFormik } from 'formik';
 import React, { useEffect, useRef } from 'react';
 import { Button, Form, Modal } from 'react-bootstrap';
 import { useDispatch, useSelector } from 'react-redux';
+import leoProfanity from 'leo-profanity';
 import * as Yup from 'yup';
 import { useTranslation } from 'react-i18next';
 import { toast } from 'react-toastify';
@@ -43,7 +44,8 @@ const Add = () => {
     validationSchema,
     onSubmit: (values) => {
       const callback = (id) => dispatch(channelsActions.setCurrentChannelId(id));
-      chat.addChannel({ name: values.name }, callback);
+      const cleanedChannelName = leoProfanity.clean(values.name);
+      chat.addChannel({ name: cleanedChannelName }, callback);
       dispatch(modalsActions.hideModal());
       toast.success(t('modalAdd.success'));
     },
