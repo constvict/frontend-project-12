@@ -1,6 +1,7 @@
 import axios from 'axios';
 import React, { useEffect, useRef, useState } from 'react';
 import { Button, Form } from 'react-bootstrap';
+import { toast } from 'react-toastify';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
 import { useTranslation } from 'react-i18next';
@@ -53,16 +54,17 @@ const RegistrationPage = () => {
         });
         auth.logIn(response.data);
         navigate('/');
-      } catch (err) {
-        if (err.isAxiosError) {
-          if (err.response.status === 409) {
+      } catch (error) {
+        if (error.isAxiosError) {
+          if (error.response.status === 409) {
             setRegistrationFailed(true);
             inputRef.current.select();
           } else {
-            console.log('error network');
+            toast.error(t('errors.network'));
           }
         } else {
-          throw err;
+          toast.error(t('errors.unknown'));
+          throw error;
         }
       }
     },

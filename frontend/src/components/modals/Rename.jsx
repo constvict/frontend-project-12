@@ -3,6 +3,7 @@ import React, { useEffect, useRef } from 'react';
 import { Button, Form, Modal } from 'react-bootstrap';
 import { useDispatch, useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
+import { toast } from 'react-toastify';
 import * as yup from 'yup';
 import { useSocket } from '../../hooks/index.js';
 import { selectors as channelsSelectors } from '../../slices/channelsSlice.js';
@@ -39,6 +40,7 @@ const Rename = () => {
     onSubmit: (values) => {
       chat.renameChannel({ id: itemId, name: values.name });
       dispatch(modalsActions.hideModal());
+      toast.success(t('modalRename.success'));
     },
   });
 

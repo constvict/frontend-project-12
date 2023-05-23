@@ -5,7 +5,7 @@ const PageNotFound = () => {
   const { t } = useTranslation();
   return (
     <div className="text-center">
-      <img alt="Страница не найдена" className="img-fluid h-25" src={image} />
+      <img alt={t('image')} className="img-fluid h-25" src={image} />
       <h1 className="h4 text-muted">{t('notFound.header')}</h1>
       <p className="text-muted">
         {t('notFound.message')}

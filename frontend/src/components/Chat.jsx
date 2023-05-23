@@ -1,6 +1,8 @@
 import axios from 'axios';
 import { useSelector, useDispatch } from 'react-redux';
 import React, { useEffect, useState } from 'react';
+import { toast } from 'react-toastify';
+import { useTranslation } from 'react-i18next';
 import Spinner from 'react-bootstrap/Spinner';
 import Channels from './channels/ChannelsBox.jsx';
 import Messages from './messages/MessagesBox.jsx';
@@ -15,6 +17,7 @@ const Chat = () => {
   const dispatch = useDispatch();
   const modalType = useSelector((state) => state.modals.modalType);
   const [isLoading, setIsLoading] = useState(true);
+  const { t } = useTranslation();
 
   useEffect(() => {
     const fetchData = async () => {
@@ -31,8 +34,13 @@ const Chat = () => {
           setIsLoading(false);
         }, 100);
       } catch (error) {
-        console.error('Error fetching data:', error);
         setIsLoading(false);
+        if (error.isAxiosError) {
+          toast.error(t('errors.network'));
+        } else {
+          toast.error(t('errors.unknown'));
+          throw error;
+        }
       }
     };
     fetchData();

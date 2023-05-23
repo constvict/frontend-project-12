@@ -9,7 +9,7 @@ const ru = {
       required: 'Обязательное поле',
       authFailed: 'Неверные имя пользователя или пароль',
       submit: 'Войти',
-      unregistred: 'Нет аккаунта?',
+      unregistered: 'Нет аккаунта?',
       signup: 'Регистрация',
     },
     signup: {
@@ -53,12 +53,14 @@ const ru = {
       send: 'Отправить',
       cancel: 'Отменить',
       name: 'Название канала',
+      success: 'Канал создан',
     },
     modalRemove: {
       confirm: 'Уверены?',
       cancel: 'Отменить',
       remove: 'Удалить',
       removeChannel: 'Удалить канал',
+      success: 'Канал удалён',
     },
     modalRename: {
       symbolsRequired: 'От 3 до 20 символов',
@@ -68,6 +70,11 @@ const ru = {
       name: 'Название канала',
       cancel: 'Отменить',
       send: 'Отправить',
+      success: 'Канал переименован',
+    },
+    errors: {
+      network: 'Ошибка соединения',
+      unknown: 'Неизвестная ошибка',
     },
   },
 };

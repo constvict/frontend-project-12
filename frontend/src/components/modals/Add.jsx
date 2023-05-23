@@ -4,6 +4,7 @@ import { Button, Form, Modal } from 'react-bootstrap';
 import { useDispatch, useSelector } from 'react-redux';
 import * as Yup from 'yup';
 import { useTranslation } from 'react-i18next';
+import { toast } from 'react-toastify';
 import { useSocket } from '../../hooks/index.js';
 import {
   actions as channelsActions,
@@ -44,6 +45,7 @@ const Add = () => {
       const callback = (id) => dispatch(channelsActions.setCurrentChannelId(id));
       chat.addChannel({ name: values.name }, callback);
       dispatch(modalsActions.hideModal());
+      toast.success(t('modalAdd.success'));
     },
   });
 
