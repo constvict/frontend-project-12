@@ -1,3 +1,4 @@
+[![Actions Status](https://github.com/constvict/frontend-project-12/workflows/hexlet-check/badge.svg)](https://github.com/constvict/frontend-project-12/actions)
 # React Chat App
 
 React Chat App is a real-time chat application allows users to create channels and exchange messages with other users in real time.
@@ -33,3 +34,6 @@ React Chat App is a real-time chat application allows users to create channels a
 1. Git clone https://github.com/constvict/frontend-project-11.git
 2. Run `npm install` to install dependencies
 3. Run `make start` to start the development server and app
+
+### You can try the React Chat App online
+https://frontend-project-12-production-7b43.up.railway.app/
