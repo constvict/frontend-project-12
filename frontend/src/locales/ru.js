@@ -41,7 +41,7 @@ const ru = {
     },
     channels: {
       header: 'Каналы',
-      control: 'Управление каналом',
+      controls: 'Управление каналом',
       remove: 'Удалить',
       rename: 'Переименовать',
     },
