@@ -103,7 +103,7 @@ const Messages = () => {
                 type="submit"
                 variant="link"
                 className="btn-group-vertical"
-                disabled={formik.errors.body || !formik.values.body}
+                disabled={!formik.isValid}
               >
                 <ArrowRightSquare
                   viewBox="0 0 16 16"

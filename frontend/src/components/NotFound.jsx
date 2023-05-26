@@ -1,5 +1,6 @@
 import { useTranslation } from 'react-i18next';
 import image from '../assets/404.svg';
+import routes from '../routes.js';
 
 const PageNotFound = () => {
   const { t } = useTranslation();
@@ -10,7 +11,7 @@ const PageNotFound = () => {
       <p className="text-muted">
         {t('notFound.message')}
         {' '}
-        <a href="/">{t('notFound.link')}</a>
+        <a href={routes.rootPage()}>{t('notFound.link')}</a>
       </p>
     </div>
   );

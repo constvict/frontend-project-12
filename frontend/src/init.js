@@ -1,9 +1,10 @@
 import React from 'react';
 import { Provider } from 'react-redux';
 import { Provider as RollbarProvider, ErrorBoundary } from '@rollbar/react';
+import { initReactI18next, I18nextProvider } from 'react-i18next';
 import i18next from 'i18next';
 import leoProfanity from 'leo-profanity';
-import { initReactI18next, I18nextProvider } from 'react-i18next';
+
 import SocketProvider from './contexts/SocketProvider.jsx';
 import App from './components/App.jsx';
 import store from './slices/index.js';
@@ -19,7 +20,7 @@ const rollbarConfig = {
   },
 };
 
-const init = async () => {
+const initializeApp = async () => {
   const socket = initSocket();
   const i18n = i18next.createInstance();
 
@@ -49,4 +50,4 @@ const init = async () => {
   );
 };
 
-export default init;
+export default initializeApp;

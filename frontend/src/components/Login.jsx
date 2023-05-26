@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
@@ -14,7 +14,6 @@ const Login = () => {
   const auth = useAuth();
   const [authFailed, setAuthFailed] = useState(false);
   const inputRef = useRef();
-  const navigate = useNavigate();
   const { t } = useTranslation();
 
   useEffect(() => {
@@ -42,7 +41,6 @@ const Login = () => {
         const response = await axios.post(routes.loginPath(), values);
         auth.logIn(response.data);
         localStorage.setItem('user', JSON.stringify(response.data));
-        navigate('/');
       } catch (error) {
         if (error.isAxiosError) {
           if (error.response.status === 401) {
@@ -122,7 +120,7 @@ const Login = () => {
               <div className="text-center">
                 <span>{t('login.unregistered')}</span>
                 {' '}
-                <Link to="/register">{t('login.signup')}</Link>
+                <Link to={routes.registrationPage()}>{t('login.signup')}</Link>
               </div>
             </div>
           </div>

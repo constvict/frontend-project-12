@@ -5,7 +5,6 @@ import { toast } from 'react-toastify';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
 import { useTranslation } from 'react-i18next';
-import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../hooks/index.js';
 import routes from '../routes.js';
 import image from '../assets/signupavatar.jpg';
@@ -13,7 +12,6 @@ import image from '../assets/signupavatar.jpg';
 const RegistrationPage = () => {
   const auth = useAuth();
   const inputRef = useRef();
-  const navigate = useNavigate();
   const { t } = useTranslation();
   const [registrationFailed, setRegistrationFailed] = useState(false);
 
@@ -53,7 +51,6 @@ const RegistrationPage = () => {
           password: values.password,
         });
         auth.logIn(response.data);
-        navigate('/');
       } catch (error) {
         if (error.isAxiosError) {
           if (error.response.status === 409) {
