@@ -6,6 +6,6 @@ export default {
   registrationPath: () => [apiPath, 'signup'].join('/'),
   rootPage: () => '/',
   loginPage: () => '/login',
-  registrationPage: () => '/register',
+  registrationPage: () => '/signup',
   notFoundPage: () => '*',
 };
