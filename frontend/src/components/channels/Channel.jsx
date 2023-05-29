@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useRef } from 'react';
 import cn from 'classnames';
 import { useTranslation } from 'react-i18next';
 import { ButtonGroup, Dropdown, Nav } from 'react-bootstrap';
@@ -8,6 +8,7 @@ import { actions as modalsActions } from '../../slices/modalsSlice.js';
 
 const Channel = (props) => {
   const { channel } = props;
+  const channelRef = useRef();
   const { t } = useTranslation();
   const currentChannelId = useSelector((state) => state.channels.currentChannelId);
 
@@ -17,8 +18,14 @@ const Channel = (props) => {
     dispatch(channelsActions.setCurrentChannelId(id));
   };
 
+  useEffect(() => {
+    if (channel.id === currentChannelId) {
+      channelRef.current.scrollIntoView({ behavior: 'smooth' });
+    }
+  }, [channel.id, currentChannelId]);
+
   return (
-    <Nav.Item key={channel.id} className="w-100">
+    <Nav.Item ref={channelRef} key={channel.id} className="w-100">
       {channel.removable ? (
         <Dropdown as={ButtonGroup} className="w-100">
           <button

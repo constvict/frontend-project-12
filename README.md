@@ -29,10 +29,11 @@ React Chat App is a real-time chat application allows users to create channels a
 - ESLint: JavaScript linter for code quality and consistency.
 - Git: Version control system for tracking changes and collaborating on the project.
 
+## Requirements
+Node.js (v18.16.0)
 ## Installation
-
-1. Git clone https://github.com/constvict/frontend-project-11.git
-2. Run `npm install` to install dependencies
+1. Git clone https://github.com/constvict/frontend-project-12.git
+2. Run `make install` to install dependencies
 3. Run `make start` to start the development server and app
 
 ### You can try the React Chat App online
