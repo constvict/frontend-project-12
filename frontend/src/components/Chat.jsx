@@ -11,6 +11,7 @@ import routes from '../routes.js';
 import { useAuth } from '../hooks/index.js';
 import { actions as channelsActions } from '../slices/channelsSlice.js';
 import { actions as messagesActions } from '../slices/messagesSlice.js';
+import SocketProvider from '../contexts/SocketProvider.jsx';
 
 const Chat = () => {
   const auth = useAuth();
@@ -40,8 +41,14 @@ const Chat = () => {
           toast.error(t('errors.unknown'));
           throw error;
         }
+        auth.logOut();
       }
     };
+
+    if (!auth.isAuthenticated()) {
+      auth.logOut();
+    }
+
     fetchData();
   }, [auth, dispatch, t]);
 
@@ -51,7 +58,7 @@ const Chat = () => {
   };
 
   return (
-    <>
+    <SocketProvider>
       {!isLoading ? (
         <div className="container h-100 my-4 overflow-hidden rounded shadow">
           <div className="row h-100 bg-white flex-md-row">
@@ -65,7 +72,7 @@ const Chat = () => {
         </div>
       )}
       {renderModal(modalType)}
-    </>
+    </SocketProvider>
   );
 };
 

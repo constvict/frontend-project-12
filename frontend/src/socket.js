@@ -27,13 +27,15 @@ const handleRenameChannel = (payload) => {
   );
 };
 
-const initSocket = () => {
+const initSocket = ({ onDisconnect }) => {
   const socket = io();
 
   socket.on('newMessage', handleNewMessage);
   socket.on('newChannel', handleNewChannel);
   socket.on('removeChannel', handleRemoveChannel);
   socket.on('renameChannel', handleRenameChannel);
+  socket.on('connect_error', onDisconnect);
+  socket.on('disconnect', onDisconnect);
 
   const addMessage = (message) => {
     socket.emit('newMessage', message, (response) => {
